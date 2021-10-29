@@ -1,5 +1,3 @@
-cp $RECIPE_DIR/CMakeLists.txt .
-
 mkdir cmake_build
 cd cmake_build
 

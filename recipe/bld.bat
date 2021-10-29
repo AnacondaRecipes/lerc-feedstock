@@ -1,8 +1,6 @@
 setlocal EnableDelayedExpansion
 echo on
 
-copy %RECIPE_DIR%\CMakeLists.txt %SRC_DIR%\
-
 cmake -LAH -S .                               ^
    -B build_conda -G "Ninja"                  ^
    -DCMAKE_BUILD_TYPE="Release"               ^
