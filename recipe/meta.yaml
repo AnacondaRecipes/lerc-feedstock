@@ -1,14 +1,12 @@
 {% set name = "lerc" %}
-{% set version = "4.0.4" %}
+{% set version = "4.0.0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  # temporarily, version starts with js_*, remove it when a new version is available.
-  # v4.0.4 has improvements in the c++ code.
-  url: https://github.com/Esri/lerc/archive/js_v{{ version }}.tar.gz
+  url: https://github.com/Esri/lerc/archive/v{{ version }}.tar.gz
   sha256: 1dc090218387ab8ca615eefd844207be64454e37868b396f3e965ed0dcf83947
   # CMakeLists.txt taken from master, and adapted for better compatibility
   # PR made: https://github.com/Esri/lerc/pull/128
@@ -31,10 +29,6 @@ requirements:
     - ninja-base  # [win]
     - m2-patch    # [win]
     - patch       # [unix]
-  host:
-    # TODO: add support for
-    # gdal
-    # geotiff
 
 test:
   commands:
