@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/Esri/lerc/archive/v{{ version }}.tar.gz
-  sha256: 1dc090218387ab8ca615eefd844207be64454e37868b396f3e965ed0dcf83947
+  sha256: 91431c2b16d0e3de6cbaea188603359f87caed08259a645fd5a3805784ee30a0
   # CMakeLists.txt taken from master, and adapted for better compatibility
   # PR made: https://github.com/Esri/lerc/pull/128
   patches:
