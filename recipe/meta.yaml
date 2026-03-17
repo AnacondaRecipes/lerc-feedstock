@@ -1,5 +1,5 @@
 {% set name = "lerc" %}
-{% set version = "4.0.0" %}
+{% set version = "4.1.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/Esri/lerc/archive/v{{ version }}.tar.gz
-  sha256: 91431c2b16d0e3de6cbaea188603359f87caed08259a645fd5a3805784ee30a0
+  sha256: f05b24d2368becab9144873878655bb718910631550d4f786262378c16ab94a7
   # CMakeLists.txt taken from master, and adapted for better compatibility
   # PR made: https://github.com/Esri/lerc/pull/128
   patches:
@@ -27,20 +27,20 @@ requirements:
     - cmake
     - make  # [unix]
     - ninja-base  # [win]
-    - m2-patch    # [win]
-    - patch       # [unix]
+    - m2-patch  # [win]
+    - patch  # [unix]
 
 test:
   commands:
     - if not exist %LIBRARY_INC%\Lerc_types.h exit 1  # [win]
     - if not exist %LIBRARY_INC%\Lerc_c_api.h exit 1  # [win]
-    - if not exist %LIBRARY_BIN%\Lerc.dll exit 1      # [win]
-    - if not exist %LIBRARY_LIB%\Lerc.lib exit 1      # [win]
-    - if not exist %LIBRARY_LIB%\pkgconfig\Lerc.pc exit 1      # [win]
-    - test -f ${PREFIX}/lib/libLerc${SHLIB_EXT}       # [unix]
-    - test -f ${PREFIX}/include/Lerc_types.h          # [unix]
-    - test -f ${PREFIX}/include/Lerc_c_api.h          # [unix]
-    - test -f ${PREFIX}/lib/pkgconfig/Lerc.pc         # [unix]
+    - if not exist %LIBRARY_BIN%\Lerc.dll exit 1  # [win]
+    - if not exist %LIBRARY_LIB%\Lerc.lib exit 1  # [win]
+    - if not exist %LIBRARY_LIB%\pkgconfig\Lerc.pc exit 1  # [win]
+    - test -f ${PREFIX}/lib/libLerc${SHLIB_EXT}  # [unix]
+    - test -f ${PREFIX}/include/Lerc_types.h  # [unix]
+    - test -f ${PREFIX}/include/Lerc_c_api.h  # [unix]
+    - test -f ${PREFIX}/lib/pkgconfig/Lerc.pc  # [unix]
 
 about:
   home: https://github.com/Esri/lerc
