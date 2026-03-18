@@ -1,18 +1,13 @@
 {% set name = "lerc" %}
-{% set version = "4.0.0" %}
+{% set version = "4.1.0" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://github.com/Esri/lerc/archive/v{{ version }}.tar.gz
-  sha256: 91431c2b16d0e3de6cbaea188603359f87caed08259a645fd5a3805784ee30a0
-  # CMakeLists.txt taken from master, and adapted for better compatibility
-  # PR made: https://github.com/Esri/lerc/pull/128
-  patches:
-    # see https://github.com/Esri/lerc/issues/253
-    - add-missing-include.patch
+  url: https://github.com/Esri/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: f05b24d2368becab9144873878655bb718910631550d4f786262378c16ab94a7
 
 build:
   number: 0
@@ -22,13 +17,12 @@ build:
 
 requirements:
   build:
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
     - make  # [unix]
     - ninja-base  # [win]
-    - m2-patch    # [win]
-    - patch       # [unix]
 
 test:
   commands:
