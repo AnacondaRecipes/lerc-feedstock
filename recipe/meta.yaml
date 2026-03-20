@@ -16,26 +16,57 @@ build:
     - {{ pin_subpackage('lerc', max_pin='x') }}
 
 requirements:
-  build:
-    - {{ stdlib('c') }}
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-    - cmake
-    - make  # [unix]
-    - ninja-base  # [win]
+  host:
+    - pip
+    - python
 
-test:
-  commands:
-    - if not exist %LIBRARY_INC%\Lerc_types.h exit 1  # [win]
-    - if not exist %LIBRARY_INC%\Lerc_c_api.h exit 1  # [win]
-    - if not exist %LIBRARY_BIN%\Lerc.dll exit 1      # [win]
-    - if not exist %LIBRARY_LIB%\Lerc.lib exit 1      # [win]
-    - if not exist %LIBRARY_LIB%\pkgconfig\Lerc.pc exit 1      # [win]
-    - test -f ${PREFIX}/lib/libLerc${SHLIB_EXT}       # [unix]
-    - test -f ${PREFIX}/include/Lerc_types.h          # [unix]
-    - test -f ${PREFIX}/include/Lerc_c_api.h          # [unix]
-    - test -f ${PREFIX}/lib/pkgconfig/Lerc.pc         # [unix]
+outputs:
+  - name: {{ name }}
+    build:
+    requirements:
+      build:
+      - {{ stdlib('c') }}
+      - {{ compiler('c') }}
+      - {{ compiler('cxx') }}
+      - cmake
+      - make  # [unix]
+      - ninja-base  # [win]
+    test:
+      commands:
+        - if not exist %LIBRARY_INC%\Lerc_types.h exit 1  # [win]
+        - if not exist %LIBRARY_INC%\Lerc_c_api.h exit 1  # [win]
+        - if not exist %LIBRARY_BIN%\Lerc.dll exit 1      # [win]
+        - if not exist %LIBRARY_LIB%\Lerc.lib exit 1      # [win]
+        - if not exist %LIBRARY_LIB%\pkgconfig\Lerc.pc exit 1      # [win]
+        - test -f ${PREFIX}/lib/libLerc${SHLIB_EXT}       # [unix]
+        - test -f ${PREFIX}/include/Lerc_types.h          # [unix]
+        - test -f ${PREFIX}/include/Lerc_c_api.h          # [unix]
+        - test -f ${PREFIX}/lib/pkgconfig/Lerc.pc         # [unix]
 
+  - name: py{{ name }}
+    build:
+      skip: true  # [py<311]
+    script: build_pylerc.sh   # [not win]
+    script: bld_pylerc.bat    # [win]
+    requirements:
+      host:
+        - pip
+        - python
+        - setuptools
+        - wheel
+        - {{ pin_subpackage(name, exact=True) }}
+      run:
+        - python
+        - numpy >=2.3.0,<3
+        - {{ pin_subpackage(name, exact=True) }}
+    test:
+      import:
+        - lerc
+      commands:
+        - pip check
+      requires:
+        - pip
+        
 about:
   home: https://github.com/Esri/lerc
   license: Apache-2.0
@@ -50,7 +81,7 @@ about:
     original input image is preserved (within user defined
     error bounds).
   dev_url: https://github.com/Esri/lerc
-  doc_url: https://github.com/Esri/lerc
+  doc_url: https://github.com/Esri/lerc/blob/master/README.md
 
 extra:
   recipe-maintainers:
