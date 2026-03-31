@@ -2,7 +2,7 @@
 {% set version = "4.1.0" %}
 
 package:
-  name: {{ name }}
+  name: {{ name }}-split
   version: {{ version }}
 
 source:
@@ -10,19 +10,15 @@ source:
   sha256: f05b24d2368becab9144873878655bb718910631550d4f786262378c16ab94a7
 
 build:
-  number: 0
+  number: 1
   run_exports:
     # No real information, keep conda-forge defaults
     - {{ pin_subpackage('lerc', max_pin='x') }}
 
-requirements:
-  host:
-    - pip
-    - python
-
 outputs:
   - name: {{ name }}
-    build:
+    script: build_lerc.sh   # [not win]
+    script: bld_lerc.bat    # [win]
     requirements:
       build:
       - {{ stdlib('c') }}
