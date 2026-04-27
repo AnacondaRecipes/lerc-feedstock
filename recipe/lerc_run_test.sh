@@ -1,7 +1,8 @@
 #!/bin/bash
 set -ex
 
-# Compile and run upstream's full encode/decode test
+# Compile and run upstream's full encode/decode test against the just-built
+# libLerc. Catches linker/symbol/encoding regressions before ship.
 ${CXX} -std=c++17 ${CXXFLAGS} ${LDFLAGS} \
     -I"${PREFIX}/include" -L"${PREFIX}/lib" \
     "${SRC_DIR}/src/LercTest/main.cpp" \

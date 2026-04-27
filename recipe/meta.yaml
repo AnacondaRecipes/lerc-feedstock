@@ -14,14 +14,6 @@ source:
 build:
   number: 2
 
-# For testing the library, run_test.sh / run_test.bat
-test:
-  source_files:
-    - src/LercTest/main.cpp
-  requires:
-    - {{ compiler('cxx') }}
-    - {{ stdlib('c') }}
-
 outputs:
   - name: {{ name }}
     build:
@@ -37,7 +29,21 @@ outputs:
         - cmake
         - make        # [unix]
         - ninja-base  # [win]
+
+    # upstream LercTest harness is compiled and
+    # run from lerc_run_test.sh / lerc_run_test.bat.
     test:
+      script: lerc_run_test.sh   # [unix]
+      script: lerc_run_test.bat  # [win]
+      source_files:
+        - src/LercTest/main.cpp
+        # main.cpp uses a relative include "../LercLib/include/Lerc_c_api.h",
+        # so the headers must sit next to it in ${SRC_DIR}.
+        - src/LercLib/include/
+      requires:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - {{ stdlib('c') }}
       commands:
         - if not exist %LIBRARY_INC%\Lerc_types.h exit 1          # [win]
         - if not exist %LIBRARY_INC%\Lerc_c_api.h exit 1          # [win]
